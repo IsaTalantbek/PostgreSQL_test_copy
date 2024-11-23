@@ -5,7 +5,9 @@ const router = express.Router()
 const __dirname = path.resolve()
 
 router.get('/main', authenticateToken, (req, res) => {
-    res.sendFile(path.join(__dirname, 'protected', 'index.html'))
+    const filePath = path.join(process.cwd(), 'protected', 'index.html')
+    console.log('File path:', filePath) // Для отладки
+    res.sendFile(filePath)
 })
 
 router.get(
