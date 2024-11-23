@@ -120,7 +120,7 @@
             getToken()
                 .then((token) => {
                     socket = new WebSocket(
-                        `ws://212.241.28.75:3000?token=${token}`
+                        `wss://postgresql-test-copy.onrender.com:3000?token=${token}`
                     )
 
                     // Обработчик входящих сообщений
@@ -134,7 +134,7 @@
                                 messageElement.className = 'message'
 
                                 // Оставляем только сообщение без логина
-                                messageElement.textContent = `${parsedData.username}: ${parsedData.data}`
+                                messageElement.textContent = parsedData.data
 
                                 // Добавляем сообщение в чат
                                 chat.appendChild(messageElement)
