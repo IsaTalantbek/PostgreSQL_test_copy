@@ -1,24 +1,24 @@
 import express from 'express'
 import { WebSocketServer } from 'ws'
-import { pool } from './project/index.js' // Импортируем соединение с PostgreSQL
+import { pool } from './src/project/index.js' // Импортируем соединение с PostgreSQL
 import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import path from 'path'
-import dataRoutes from './project/aa.js'
-import authRoutes from './routes/authRoutes.js'
-import publicRoutes from './routes/publicRoutes.js'
-import protectRoutes from './routes/protectedRoutes.js'
+import dataRoutes from './src/project/aa.js'
+import authRoutes from './src/routes/authRoutes.js'
+import publicRoutes from './src/routes/publicRoutes.js'
+import protectRoutes from './src/routes/protectedRoutes.js'
 import {
     authenticateToken,
     checkRole,
     redirectIfAuthenticated,
-} from './middleware/authMiddleware.js'
+} from './src/middleware/authMiddleware.js'
 import { fileURLToPath } from 'url'
-import { run, fetchData } from './project/index.js'
+import { run, fetchData } from './src/project/index.js'
 import cors from 'cors'
-import { errorHandler } from './middleware/errorHandler.js'
-import { spyMiddleware } from './middleware/spy.js'
+import { errorHandler } from './src/middleware/errorHandler.js'
+import { spyMiddleware } from './src/middleware/spy.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
