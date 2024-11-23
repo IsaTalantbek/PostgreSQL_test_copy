@@ -62,7 +62,7 @@ app.use('/api/database', authenticateToken, checkRole('admin'), dataRoutes)
 app.use('/api/auth', authRoutes)
 app.get('/config', (req, res) => {
     res.json({
-        apiUrl: process.env.API_URL,
+        apiUrl: process.env.PORT,
     })
 })
 

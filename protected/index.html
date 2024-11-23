@@ -91,44 +91,16 @@
             fetch('/config')
                 .then((response) => response.json())
                 .then((config) => {
-                    console.log(config.apiUrl) // Используйте переменную
-                })
+                    const port = config.port // Получаем порт из конфигурации
+                    const apiUrl = 'postgresql-test-copy.onrender.com' // Добавляем URL сервера
 
-            let socket // Переменная для WebSocket
-
-            // Получаем токен из предварительного запроса
-            async function getToken() {
-                const response = await fetch('/get-token', {
-                    credentials: 'include',
-                }) // credentials: 'include' позволяет отправлять куки
-                if (response.ok) {
-                    const data = await response.json()
-                    return data.token // Сервер возвращает JWT
-                }
-                throw new Error('Не удалось получить токен')
-            }
-
-            // Функция для отправки сообщения
-            function sendMessage() {
-                const message = input.value.trim()
-                if (message && socket) {
-                    socket.send(
-                        JSON.stringify({
-                            type: 'message',
-                            data: message,
-                        })
-                    )
-                    input.value = '' // Очистка поля ввода
-                }
-            }
-
-            // Подключаемся к WebSocket с использованием токена
-            getToken()
-                .then((token) => {
-                    // Возвращаем новый промис с WebSocket
-                    return new WebSocket(
-                        `wss://postgresql-test-copy.onrender.com:${port}?token=${token}`
-                    )
+                    // Получаем токен и устанавливаем WebSocket подключение
+                    return getToken().then((token) => {
+                        // Подключаемся к WebSocket с использованием токена и порта
+                        return new WebSocket(
+                            `wss://${apiUrl}:${port}?token=${token}`
+                        )
+                    })
                 })
                 .then((ws) => {
                     socket = ws // Сохраняем WebSocket в переменную
@@ -180,6 +152,32 @@
                     sendMessage()
                 }
             })
+
+            // Получаем токен из предварительного запроса
+            async function getToken() {
+                const response = await fetch('/get-token', {
+                    credentials: 'include',
+                }) // credentials: 'include' позволяет отправлять куки
+                if (response.ok) {
+                    const data = await response.json()
+                    return data.token // Сервер возвращает JWT
+                }
+                throw new Error('Не удалось получить токен')
+            }
+
+            // Функция для отправки сообщения
+            function sendMessage() {
+                const message = input.value.trim()
+                if (message && socket) {
+                    socket.send(
+                        JSON.stringify({
+                            type: 'message',
+                            data: message,
+                        })
+                    )
+                    input.value = '' // Очистка поля ввода
+                }
+            }
         </script>
     </body>
 </html>
