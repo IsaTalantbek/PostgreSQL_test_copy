@@ -61,8 +61,9 @@ app.get('/get-token', (req, res) => {
 app.use('/api/database', authenticateToken, checkRole('admin'), dataRoutes)
 app.use('/api/auth', authRoutes)
 app.get('/config', (req, res) => {
+    console.log('Port:', process.env.PORT) // Выводим порт в консоль
     res.json({
-        apiUrl: process.env.PORT,
+        port: process.env.PORT,
     })
 })
 

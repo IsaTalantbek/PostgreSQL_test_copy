@@ -91,12 +91,15 @@
             fetch('/config')
                 .then((response) => response.json())
                 .then((config) => {
-                    const port = config.port // Получаем порт из конфигурации
-                    const apiUrl = 'postgresql-test-copy.onrender.com' // Добавляем URL сервера
+                    console.log(config.port) // Убедитесь, что порт приходит корректно
 
-                    // Получаем токен и устанавливаем WebSocket подключение
+                    const apiUrl = 'postgresql-test-copy.onrender.com' // URL сервера
+                    const port = config.port // Порт, полученный с сервера
+                    if (!port) {
+                        port = 10000
+                    }
+
                     return getToken().then((token) => {
-                        // Подключаемся к WebSocket с использованием токена и порта
                         return new WebSocket(
                             `wss://${apiUrl}:${port}?token=${token}`
                         )
