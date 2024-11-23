@@ -88,7 +88,11 @@
             const chat = document.getElementById('chat')
             const input = document.getElementById('messageInput')
 
-            const port = process.env.PORT || 10000
+            fetch('/config')
+                .then((response) => response.json())
+                .then((config) => {
+                    console.log(config.apiUrl) // Используйте переменную
+                })
 
             let socket // Переменная для WebSocket
 
@@ -121,9 +125,13 @@
             // Подключаемся к WebSocket с использованием токена
             getToken()
                 .then((token) => {
-                    socket = new WebSocket(
+                    // Возвращаем новый промис с WebSocket
+                    return new WebSocket(
                         `wss://postgresql-test-copy.onrender.com:${port}?token=${token}`
                     )
+                })
+                .then((ws) => {
+                    socket = ws // Сохраняем WebSocket в переменную
 
                     // Обработчик входящих сообщений
                     socket.onmessage = (event) => {

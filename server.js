@@ -60,6 +60,11 @@ app.get('/get-token', (req, res) => {
 
 app.use('/api/database', authenticateToken, checkRole('admin'), dataRoutes)
 app.use('/api/auth', authRoutes)
+app.get('/config', (req, res) => {
+    res.json({
+        apiUrl: process.env.API_URL,
+    })
+})
 
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'))
