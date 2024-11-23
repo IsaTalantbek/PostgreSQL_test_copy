@@ -92,12 +92,15 @@
             fetch('/config')
                 .then((response) => response.json())
                 .then((config) => {
-                    console.log(config.port) // Убедитесь, что порт приходит корректно
+                    console.log('Config received:', config) // Логируем конфигурацию с сервера
+                    console.log('Port from config:', config.port) // Убедитесь, что порт приходит корректно
 
                     const apiUrl = 'postgresql-test-copy.onrender.com' // URL сервера
                     let port = config.port || 10000 // Порт с сервера или 10000 по умолчанию
+                    console.log('Using port:', port) // Логируем выбранный порт
 
                     return getToken().then((token) => {
+                        console.log('Token received:', token) // Логируем полученный токен
                         return new WebSocket(
                             `wss://${apiUrl}:${port}?token=${token}`
                         )
@@ -105,11 +108,14 @@
                 })
                 .then((ws) => {
                     socket = ws // Сохраняем WebSocket в переменную
+                    console.log('WebSocket created:', socket)
 
                     // Обработчик входящих сообщений
                     socket.onmessage = (event) => {
+                        console.log('Message received:', event.data) // Логируем полученное сообщение
                         try {
                             const parsedData = JSON.parse(event.data)
+                            console.log('Parsed message:', parsedData) // Логируем распарсенные данные
 
                             if (parsedData.type === 'message') {
                                 const messageElement =
@@ -148,9 +154,9 @@
                         console.log('WebSocket подключен')
                     }
                 })
-                .catch((error) =>
+                .catch((error) => {
                     console.error('Ошибка при подключении:', error.message)
-                )
+                })
 
             // Отправка сообщения по нажатию Enter
             input.addEventListener('keydown', function (event) {
@@ -161,11 +167,13 @@
 
             // Получаем токен из предварительного запроса
             async function getToken() {
+                console.log('Requesting token...')
                 const response = await fetch('/get-token', {
                     credentials: 'include',
                 })
                 if (response.ok) {
                     const data = await response.json()
+                    console.log('Token received from server:', data.token) // Логируем полученный токен
                     return data.token // Сервер возвращает JWT
                 }
                 throw new Error('Не удалось получить токен')
@@ -174,6 +182,7 @@
             // Функция для отправки сообщения
             function sendMessage() {
                 const message = input.value.trim()
+                console.log('Message to send:', message) // Логируем отправляемое сообщение
 
                 // Проверяем, что сообщение не пустое и WebSocket подключен
                 if (message && socket && socket.readyState === WebSocket.OPEN) {
@@ -183,6 +192,7 @@
                             data: message,
                         })
                     )
+                    console.log('Message sent:', message) // Логируем отправленное сообщение
                     input.value = '' // Очистка поля ввода
                 } else {
                     console.warn('WebSocket еще не открыт или сообщение пустое')

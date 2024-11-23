@@ -25,7 +25,14 @@ const __dirname = path.dirname(__filename)
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET
 const app = express()
-app.use(cors())
+app.use(
+    cors({
+        origin: 'https://postgresql-test-copy.onrender.com', // Укажите домен клиента
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type'],
+    })
+)
+
 console.log(process.env.PORT)
 
 app.use(express.json())
