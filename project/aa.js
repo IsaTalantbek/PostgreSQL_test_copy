@@ -1,4 +1,11 @@
-import { run, createData, fetchData, updateData, deleteData } from './index.js'
+import {
+    run,
+    createData,
+    fetchData,
+    updateData,
+    deleteData,
+    pool,
+} from './index.js'
 import { Router } from 'express'
 
 const dataRouter = Router()
@@ -60,6 +67,16 @@ dataRouter.delete('/:id', async (req, res) => {
             res.status(500).send('delete-500-error')
         }
         console.error(err.stack)
+    }
+})
+
+dataRouter.get('/delete', async (req, res) => {
+    try {
+        const result = await pool.query('DELETE FROM messages')
+        res.status(200).json({ message: 'All users deleted successfully' })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Error deleting users' })
     }
 })
 
