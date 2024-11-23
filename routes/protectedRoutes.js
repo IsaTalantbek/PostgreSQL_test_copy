@@ -1,14 +1,11 @@
 import express from 'express'
 import path from 'path'
-import {
-    authenticateToken,
-    checkRole,
-} from '../../middleware/authMiddleware.js'
+import { authenticateToken, checkRole } from '../middleware/authMiddleware.js'
 const router = express.Router()
 const __dirname = path.resolve()
 
 router.get('/main', authenticateToken, (req, res) => {
-    const filePath = path.join(process.cwd(), 'protected', 'index.html')
+    const filePath = path.join(__dirname, 'protected', 'index.html')
     console.log('File path:', filePath) // Для отладки
     res.sendFile(filePath)
 })

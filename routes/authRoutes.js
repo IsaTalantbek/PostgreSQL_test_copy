@@ -2,7 +2,7 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
-import { pool, run, fetchData, createData } from '../../project/index.js' // импортируй свой клиент подключения к PostgreSQL
+import { pool, run, fetchData, createData } from '../project/index.js' // импортируй свой клиент подключения к PostgreSQL
 dotenv.config()
 const router = express.Router()
 

@@ -1,6 +1,6 @@
 import express from 'express'
 import path from 'path'
-import { redirectIfAuthenticated } from '../../middleware/authMiddleware.js'
+import { redirectIfAuthenticated } from '../middleware/authMiddleware.js'
 const router = express.Router()
 const __dirname = path.resolve()
 
