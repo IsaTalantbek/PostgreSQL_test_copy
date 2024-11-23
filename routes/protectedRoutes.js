@@ -1,6 +1,9 @@
 import express from 'express'
 import path from 'path'
-import { authenticateToken, checkRole } from '../middleware/authMiddleware.js'
+import {
+    authenticateToken,
+    checkRole,
+} from '../../middleware/authMiddleware.js'
 const router = express.Router()
 const __dirname = path.resolve()
 
