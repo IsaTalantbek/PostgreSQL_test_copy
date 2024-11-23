@@ -70,7 +70,7 @@ app.get('/config', (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'))
 })
-const server = app.listen(process.env.PORT || 3000, '0.0.0.0', () =>
+const server = app.listen(process.env.PORT || 80, '0.0.0.0', () =>
     console.log('server starting')
 )
 
@@ -81,6 +81,7 @@ let messages = [] // Хранилище сообщений
 const SECRET_KEY = process.env.JWT_SECRET
 
 wss.on('connection', (ws, req) => {
+    console.log('start wss')
     const params = new URLSearchParams(req.url.split('?')[1])
     const token = params.get('token')
 
