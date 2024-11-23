@@ -120,7 +120,7 @@
             getToken()
                 .then((token) => {
                     socket = new WebSocket(
-                        `wss://postgresql-test-copy.onrender.com:3000?token=${token}`
+                        `wss://https://postgresql-test-copy.onrender.com:10000?token=${token}`
                     )
 
                     // Обработчик входящих сообщений
