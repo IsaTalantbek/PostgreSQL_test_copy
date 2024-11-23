@@ -88,6 +88,8 @@
             const chat = document.getElementById('chat')
             const input = document.getElementById('messageInput')
 
+            const port = process.env.PORT || 10000
+
             let socket // Переменная для WebSocket
 
             // Получаем токен из предварительного запроса
@@ -120,7 +122,7 @@
             getToken()
                 .then((token) => {
                     socket = new WebSocket(
-                        `wss://https://postgresql-test-copy.onrender.com:10000?token=${token}`
+                        `wss://postgresql-test-copy.onrender.com:${port}?token=${token}`
                     )
 
                     // Обработчик входящих сообщений
