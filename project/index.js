@@ -1,0 +1,33 @@
+import pkg from 'pg'
+import createData from './create.js'
+import fetchData from './fetch.js'
+import alterData from './alter.js'
+import updateData from './update.js'
+import deleteData from './delete.js'
+const { Pool } = pkg
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'usersbase',
+    password: '260909isa',
+    port: 5432,
+    max: 10,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+})
+
+const run = async (func, ...params) => {
+    const client = await pool.connect()
+    try {
+        const result = await func(client, ...params)
+        return result
+    } catch (err) {
+        console.log(err)
+        throw err
+    } finally {
+        client.release()
+    }
+}
+
+export { run, createData, fetchData, updateData, deleteData, pool }

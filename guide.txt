@@ -1,0 +1,16 @@
+ALTER TABLE имя_таблицы ADD COLUMN имя_столбца тип_данных;
+ALTER TABLE имя_таблицы DROP COLUMN имя_столбца;
+
+SELECT * FROM employee - Смотрит все значения столбцев
+
+INSERT INTO table_name (column1, column2, column3)
+VALUES (value1, value2, value3); - Добавляет новую информацию в столбец
+
+DELETE FROM employee WHERE id = 3, 4, 5; - удаляет человека по айди
+
+CREATE TABLE ()
+
+UPDATE имя_таблицы
+SET имя_столбца1 = новое_значение1,
+    имя_столбца2 = новое_значение2
+WHERE условие;

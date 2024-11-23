@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ошибка авторизации</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                background: #f7f7f7;
+                font-family: Arial, sans-serif;
+            }
+            .error-container {
+                text-align: center;
+                background: #fff;
+                padding: 30px 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                font-size: 3rem;
+                color: #d9534f;
+                margin: 0;
+            }
+            p {
+                font-size: 1.2rem;
+                color: #555;
+            }
+            a {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 20px;
+                background: #5bc0de;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 5px;
+                transition: background 0.3s;
+            }
+            a:hover {
+                background: #31b0d5;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="error-container">
+            <h1>Ошибка авторизации</h1>
+            <p>К сожалению, вы не авторизованы. Попробуйте снова!</p>
+            <a href="/login">Вернуться к логину</a>
+        </div>
+    </body>
+</html>
