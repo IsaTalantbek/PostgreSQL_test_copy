@@ -119,7 +119,9 @@
             // Подключаемся к WebSocket с использованием токена
             getToken()
                 .then((token) => {
-                    socket = new WebSocket(`ws://localhost:3000?token=${token}`)
+                    socket = new WebSocket(
+                        `ws://212.241.28.75:3000?token=${token}`
+                    )
 
                     // Обработчик входящих сообщений
                     socket.onmessage = (event) => {
@@ -132,7 +134,7 @@
                                 messageElement.className = 'message'
 
                                 // Оставляем только сообщение без логина
-                                messageElement.textContent = parsedData.data
+                                messageElement.textContent = `${parsedData.username}: ${parsedData.data}`
 
                                 // Добавляем сообщение в чат
                                 chat.appendChild(messageElement)
