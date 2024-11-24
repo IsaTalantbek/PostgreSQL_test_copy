@@ -73,7 +73,7 @@ app.get('/config', (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'))
 })
-const server = app.listen(process.env.PORT, () =>
+const server = app.listen(process.env.PORT, '0.0.0.0', () =>
     console.log('server starting')
 )
 
