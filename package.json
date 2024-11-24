@@ -8,6 +8,7 @@
         "express": "^4.21.1",
         "jsonwebtoken": "^9.0.2",
         "pg": "^8.13.1",
+        "telnet": "^0.0.1",
         "typescript": "^5.7.2",
         "ws": "^8.18.0"
     },

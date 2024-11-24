@@ -96,14 +96,11 @@
                     console.log('Port from config:', config.port) // Убедитесь, что порт приходит корректно
 
                     const apiUrl = 'postgresql-test-copy.onrender.com' // URL сервера
-                    let port = config.port || 10000 // Порт с сервера или 10000 по умолчанию
                     console.log('Using port:', port) // Логируем выбранный порт
 
                     return getToken().then((token) => {
                         console.log('Token received:', token) // Логируем полученный токен
-                        return new WebSocket(
-                            `wss://${apiUrl}:${port}?token=${token}`
-                        )
+                        return new WebSocket(`wss://${apiUrl}/?token=${token}`)
                     })
                 })
                 .then((ws) => {
