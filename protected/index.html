@@ -116,13 +116,10 @@
                 .then((response) => response.json())
                 .then((config) => {
                     console.log('Port from config:', config.port)
-                    const apiUrl = 'localhost' //Поменять.
-                    const port = config.port
+                    const apiUrl = 'postgresql-test-copy.onrender.com' //Поменять.
                     return getToken().then((token) => {
                         console.log('Token received:', token) // Логируем полученный токен
-                        return new WebSocket(
-                            `ws://${apiUrl}:${port}/?token=${token}`
-                        )
+                        return new WebSocket(`wss://${apiUrl}/?token=${token}`)
                     }) // Для http использовать ws и поставить порт.
                     // Для https использовать wss и удалить порт
                 })
