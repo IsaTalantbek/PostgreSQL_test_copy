@@ -4,13 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Анонимный чат</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Подключаем шрифт -->
         <style>
             body {
-                font-family: Arial, sans-serif;
+                font-family: 'Roboto', sans-serif; /* Новый шрифт */
                 margin: 0;
                 padding: 0;
-                background-color: #f4f4f9;
-                color: #333;
+                background-color: #2f2f2f; /* Темно-серый фон */
+                color: #ffffff; /* Светло-серый текст */
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -19,6 +24,7 @@
             header {
                 margin: 20px;
                 text-align: center;
+                color: #cccccc;
             }
             .chat-container {
                 display: flex;
@@ -26,18 +32,18 @@
                 width: 100%;
                 max-width: 600px;
                 height: 70%;
-                background-color: #fff;
-                border: 1px solid #ddd;
+                background-color: #444; /* Темный фон для чата */
+                border: 1px solid #555;
                 border-radius: 5px;
                 overflow-y: auto;
                 padding: 10px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             }
             .message {
                 margin: 5px 0;
                 padding: 10px;
-                background-color: #007bff;
-                color: white;
+                background-color: #333; /* Белые сообщения */
+                color: #fff; /* Темный текст для сообщений */
                 border-radius: 5px;
                 word-wrap: break-word;
             }
@@ -51,9 +57,14 @@
                 flex-grow: 1;
                 padding: 10px;
                 font-size: 16px;
-                border: 1px solid #ddd;
+                border: 1px solid #666; /* Более серый цвет для рамки */
                 border-radius: 5px 0 0 5px;
                 outline: none;
+                background-color: #555; /* Более темный фон для инпута */
+                color: #ddd; /* Светлый текст в инпуте */
+            }
+            input:focus {
+                border-color: #007bff;
             }
             button {
                 padding: 10px 20px;
@@ -66,6 +77,17 @@
             }
             button:hover {
                 background-color: #0056b3;
+            }
+            /* Настройка ползунка */
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #777; /* Серый цвет ползунка */
+                border-radius: 10px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #444; /* Цвет фона ползунка */
             }
         </style>
     </head>
@@ -84,6 +106,7 @@
             />
             <button onclick="sendMessage()">Отправить</button>
         </div>
+
         <script>
             let socket // Переменная для WebSocket
             const chat = document.getElementById('chat')
@@ -92,26 +115,24 @@
             fetch('/config')
                 .then((response) => response.json())
                 .then((config) => {
-                    console.log('Config received:', config) // Логируем конфигурацию с сервера
-                    console.log('Port from config:', config.port) // Убедитесь, что порт приходит корректно
-
-                    const apiUrl = 'postgresql-test-copy.onrender.com' // URL сервера
-
+                    console.log('Port from config:', config.port)
+                    const apiUrl = 'localhost' //Поменять.
+                    const port = config.port
                     return getToken().then((token) => {
                         console.log('Token received:', token) // Логируем полученный токен
-                        return new WebSocket(`wss://${apiUrl}/?token=${token}`)
-                    })
+                        return new WebSocket(
+                            `ws://${apiUrl}:${port}/?token=${token}`
+                        )
+                    }) // Для http использовать ws и поставить порт.
+                    // Для https использовать wss и удалить порт
                 })
                 .then((ws) => {
-                    socket = ws // Сохраняем WebSocket в переменную
-                    console.log('WebSocket created:', socket)
+                    socket = ws
 
                     // Обработчик входящих сообщений
                     socket.onmessage = (event) => {
-                        console.log('Message received:', event.data) // Логируем полученное сообщение
                         try {
                             const parsedData = JSON.parse(event.data)
-                            console.log('Parsed message:', parsedData) // Логируем распарсенные данные
 
                             if (parsedData.type === 'message') {
                                 const messageElement =
@@ -161,15 +182,13 @@
                 }
             })
 
-            // Получаем токен из предварительного запроса
             async function getToken() {
-                console.log('Requesting token...')
                 const response = await fetch('/get-token', {
                     credentials: 'include',
                 })
                 if (response.ok) {
                     const data = await response.json()
-                    console.log('Token received from server:', data.token) // Логируем полученный токен
+
                     return data.token // Сервер возвращает JWT
                 }
                 throw new Error('Не удалось получить токен')
@@ -178,9 +197,7 @@
             // Функция для отправки сообщения
             function sendMessage() {
                 const message = input.value.trim()
-                console.log('Message to send:', message) // Логируем отправляемое сообщение
 
-                // Проверяем, что сообщение не пустое и WebSocket подключен
                 if (message && socket && socket.readyState === WebSocket.OPEN) {
                     socket.send(
                         JSON.stringify({
@@ -188,7 +205,6 @@
                             data: message,
                         })
                     )
-                    console.log('Message sent:', message) // Логируем отправленное сообщение
                     input.value = '' // Очистка поля ввода
                 } else {
                     console.warn('WebSocket еще не открыт или сообщение пустое')
