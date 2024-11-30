@@ -14,6 +14,7 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
+                flex-direction: column;
             }
             .container {
                 background-color: white;
@@ -70,6 +71,18 @@
                 background-color: #ccc;
                 cursor: not-allowed;
             }
+            .warning-text {
+                color: rgba(255, 0, 0, 0.7);
+                font-size: 14px;
+                text-align: center;
+                margin-top: 10px;
+                grid-column: span 4;
+            }
+            .console-output {
+                margin-top: 20px;
+                font-size: 14px;
+                color: #555;
+            }
         </style>
     </head>
     <body>
@@ -89,6 +102,9 @@
                     placeholder="Password"
                 />
                 <button id="create-button">Создать</button>
+                <p class="warning-text">
+                    Внимание! Пароль отсюда не хешируется!
+                </p>
             </div>
 
             <div class="form-group">
@@ -111,6 +127,10 @@
                 <input type="number" id="get-id" placeholder="ID" />
                 <button id="get-button">Получить</button>
             </div>
+        </div>
+
+        <div class="console-output">
+            <h2>Вывод в консоли</h2>
         </div>
 
         <script>

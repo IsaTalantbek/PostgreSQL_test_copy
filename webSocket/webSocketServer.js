@@ -47,8 +47,8 @@ export function createWebSocketServer(server) {
                     ws.send(
                         JSON.stringify({
                             type: 'message',
-                            username: message.username, // Передаем имя пользователя
-                            data: message.data, // Сообщение
+                            username: message.username,
+                            data: message.data,
                         })
                     )
                 })
@@ -79,8 +79,8 @@ export function createWebSocketServer(server) {
 
                             // Отправляем сообщение всем клиентам
                             const chatMessage = {
-                                username: result.rows[0].username, // Имя пользователя
-                                data: result.rows[0].data, // Сообщение
+                                username: result.rows[0].username,
+                                data: result.rows[0].data,
                             }
 
                             // Рассылаем сообщение всем клиентам
@@ -106,4 +106,6 @@ export function createWebSocketServer(server) {
             console.log(`Пользователь отключился: ${username}`)
         })
     })
+
+    return wss
 }

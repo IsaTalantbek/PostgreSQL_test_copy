@@ -1,12 +1,12 @@
 import express from 'express'
 import { WebSocketServer } from 'ws'
-import { pool } from './project/index.js' // Импортируем соединение с PostgreSQL
+import { pool } from './project/index.js'
 import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import path from 'path'
-import dataRoutes from './project/aa.js'
-import authRoutes from './routes/authRoutes.js'
+import dataRoutes from './routes/dbRoutes.js'
+import apiRoutes from './routes/apiRoutes.js'
 import publicRoutes from './routes/publicRoutes.js'
 import protectRoutes from './routes/protectedRoutes.js'
 import {
@@ -52,6 +52,8 @@ app.use('/a', protectRoutes)
 app.get('/test-token', authenticateToken, (req, res) => {
     res.json({ user: req.user })
 })
+app.use('/api', apiRoutes)
+
 app.get('/get-token', (req, res) => {
     const token = req.cookies.token // Извлекаем токен из куки
     if (token) {
@@ -61,8 +63,6 @@ app.get('/get-token', (req, res) => {
     }
 })
 
-app.use('/api/database', authenticateToken, checkRole('admin'), dataRoutes)
-app.use('/api/auth', authRoutes)
 app.get('/config', (req, res) => {
     console.log('Port:', process.env.PORT) // Выводим порт в консоль
     res.json({

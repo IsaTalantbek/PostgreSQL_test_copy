@@ -1,22 +1,17 @@
-import express from 'express'
-import path from 'path'
+import { Router } from 'express'
 import { authenticateToken, checkRole } from '../middleware/authMiddleware.js'
-const router = express.Router()
-const __dirname = path.resolve()
+import mainController from './controllers/protectedControllers/main.js'
+import adminController from './controllers/protectedControllers/admin-panel.js'
 
-router.get('/main', authenticateToken, (req, res) => {
-    const filePath = path.join(__dirname, 'protected', 'index.html')
-    console.log('File path:', filePath) // Для отладки
-    res.sendFile(filePath)
-})
+const router = Router()
+
+router.get('/main', authenticateToken, mainController)
 
 router.get(
     '/admin-panel',
     authenticateToken,
     checkRole('admin'),
-    (req, res) => {
-        res.sendFile(path.join(__dirname, 'protected', 'admin.html'))
-    }
+    adminController
 )
 
 export default router
